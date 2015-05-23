@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,9 +41,11 @@ public class UserStoriesService implements IService {
 		try {
 			StringTokenizer tok = new StringTokenizer(parameters, "&num=");
 			num = Integer.parseInt(tok.nextToken());
-		} catch (IndexOutOfBoundsException e) {
+		}catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}catch (NumberFormatException e) {
+			e.printStackTrace();
+		}catch (NoSuchElementException e) {
 			e.printStackTrace();
 		}
 		return num;

@@ -1,0 +1,18 @@
+<userstories>		<!-- As a ... i want ... so that ...  -->
+
+	<title>
+		<title>Third iteration's user stories</title>
+		<info>In this last iteration we had less big objectives and jobs but a big work of refactory planned in order to give the last release which will be evaluated.</info>
+	</title>
+	<story>
+		<as>person</as>		
+		<goal>to register on the XP team tools application</goal>
+		<reason>then i have my account</reason>
+	</story>
+	<story>
+		<as>team member</as>		
+		<goal>that the end of a tomato generates a sub event of a programming task</goal>
+		<reason>before starting a tomato every user needs to select for which task wants to work and then the events goes in the timeline under that task block</reason>
+	</story>
+
+</userstories>
