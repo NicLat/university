@@ -12,11 +12,10 @@ import java.util.TimeZone;
 
 /**
  * Gestisce la risposta HTTP.
- * 
  * Le chiamate a 'openHttpAnswer' devono sempre essere seguite a chiamate a
  * 'closeHttpAnswer'
  * 
- * @author nicola
+ * @author Nicola
  */
 public class HttpMessage {
 
@@ -67,6 +66,7 @@ public class HttpMessage {
 	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
+	
 	/**
 	 * Sets the response code
 	 * @param string
@@ -76,6 +76,10 @@ public class HttpMessage {
 		responseCode = string;
 	}
 	
+	/**
+	 * Closes the http answer
+	 * @throws IOException
+	 */
 	public void closeHttpAnswer() throws IOException {
 		outputStreamWriter.write("\n");
 		outputStreamWriter.close();
@@ -88,6 +92,7 @@ public class HttpMessage {
 	public OutputStreamWriter getOut() {
 		return outputStreamWriter;
 	}
+	
 	/**
 	 * Può essere chiamata solamente quando la HttpAnswer è opened
 	 * @return

@@ -15,6 +15,10 @@ import java.nio.charset.Charset;
 
 import server.HttpMessage.ContentType;
 
+/**
+ * Servizio per l'inoltro di file generici, testuali e binari
+ * @author Nicola
+ */
 public class FileService implements IService {
 	
 	public String homepage = "index.html";
@@ -73,8 +77,6 @@ public class FileService implements IService {
 
 		return filename;
 	}
-	
-	
 	
 	
 	private BufferedReader copyFile(String filename, OutputStreamWriter out)

@@ -19,6 +19,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Service to handle the format of a page of user stories, it takes them from xml files
+ * @author Nicola
+ */
 public class UserStoriesService implements IService {
 
 	private static final String filename = "web/iterations.html";
@@ -51,7 +55,7 @@ public class UserStoriesService implements IService {
 		return num;
 	}
 
-	public void copyFile(String filename, OutputStreamWriter out, int itNumber)
+	private void copyFile(String filename, OutputStreamWriter out, int itNumber)
 			throws FileNotFoundException, IOException {
 		BufferedReader filerReader = new BufferedReader(
 				new FileReader(filename));

@@ -7,6 +7,10 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+/**
+ * Class representing an http request, useful to extract what the client needs and parameters
+ * @author Nicola
+ */
 public class HttpRequest {
 
 	private String uri = "";
@@ -48,9 +52,17 @@ public class HttpRequest {
 		}
 	}
 	
+	/**
+	 * Gets the parameters in the request
+	 * @return
+	 */
 	public String getParameters() {
 		return parameters;
 	}
+	/**
+	 * Gets the uri of the request
+	 * @return
+	 */
 	public String getUri() {
 		return uri;
 	}

@@ -4,19 +4,15 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * Generico Servizio
- * 
- * TODO: rivedere javadoc
- * 
- * @author nicola
+ * Generico Servizio del server, da attaccare ad un uri 
+ * @author Nicola
  */
 public interface IService {
 
 	/**
-	 * TODO : fissare il 'filename', sostituirlo con il componente 'RichiestaHttp'
-	 * 
-	 * @param clientSocket
-	 * @param uri
+	 * Svolgimento del servizio che si trasforma in una risposta HTTP
+	 * @param clientSocket socket che aveva richiesto quel servizio
+	 * @param request HttpRequest of the service
 	 * @throws IOException
 	 */
 	public void sendHTTP(final Socket clientSocket, HttpRequest	request)
