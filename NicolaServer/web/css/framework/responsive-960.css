@@ -1,0 +1,19 @@
+@media (max-width: 767px) {
+
+    .wide, .container, .section, .row {
+      max-width: 767px !important;
+      min-width: 300px !important;
+    }
+
+
+    [class*="col"] {
+	  width:100% !important;
+      max-width: 767px !important;
+      min-width: 300px !important;
+  	}
+
+  	.wrap {
+  		margin-bottom: 30px;
+  	}
+}
+

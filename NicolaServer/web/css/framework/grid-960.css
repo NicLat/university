@@ -1,0 +1,67 @@
+/* display block */
+.wide, .container, .section, .row, .wrap {
+	display: block;
+}
+
+/*float:left*/
+
+.wide, .section, .row {
+	float: left;
+}
+
+/* ========= start grid ========= */
+
+.wide {
+	width: 100%;
+	min-width: 768px;
+}
+.container, .section, .row {
+	width: 100%;
+	min-width: 768px;
+	max-width: 960px;
+	margin:0 auto;
+}
+
+.row {
+	padding: 30px 0;
+}
+.wrap {
+	padding: 15px;
+}
+
+
+/*columns*/
+
+[class*="col"] {
+  float: left;
+}
+.col1 {
+	width:16.6666666%;
+	max-width: 160px;
+	min-width: 128px;
+}
+.col2 {
+	width:33.3333333%;
+	max-width: 320px;
+	min-width: 256px;
+}
+.col3 {
+	width:50%;
+	max-width: 480px;
+	min-width: 384px;
+}
+.col4 {
+	width:66.6666666%;
+	max-width: 640px;
+	min-width: 512px;
+}
+.col5 {
+	width:83.3333333%;
+	max-width: 800px;
+	min-width: 640px;
+}
+.col6 {
+	width:100%;
+	max-width: 960px;
+	min-width: 768px;
+}

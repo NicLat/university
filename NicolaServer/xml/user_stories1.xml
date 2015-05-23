@@ -1,0 +1,31 @@
+<userstories>		<!-- As a ... i want ... so that ...  -->
+
+	<title>
+		<title>First iteration's user stories</title>
+		<info>The first iteration lasted 4 weeks, the beginning took much time to decide the direction to take, set up the working stations and start a first collaboration in the team.</info>
+	</title>
+	<story>
+		<as>team member</as>		
+		<goal>to connect to my team-chat</goal>
+		<reason>i can send messages to the other team members and receive messages from them</reason>
+	</story>
+	
+	<story>
+		<as>XP team</as>		
+		<goal>to start a shared "programming tomato" (time slice)</goal>
+		<reason>we can work in XP being at our homes</reason>
+	</story>
+	
+	<story>
+		<as>team member</as>		
+		<goal>to receive all the messages sent when i'm online at the moment when i connect to the chat</goal>
+		<reason>i can be updated about the other's conversation</reason>
+	</story>
+		
+	<story>	
+		<as>team member</as>		
+		<goal>to create a timeline event from the client chat application</goal>
+		<reason>our planned meetings and event can be saved</reason>
+	</story>
+
+</userstories>
