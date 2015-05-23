@@ -1,0 +1,9 @@
+
+(17,01,15) 12:45:45 Riscaldamento1 set=19 00:01
+(17,01,15) 12:45:45 Riscaldamento1 planned
+(17,01,15) 12:45:45 Riscaldamento1 set=25 00:04
+(17,01,15) 12:45:45 Riscaldamento1 busy
+(17,01,15) 12:45:45 Riscaldamento1 set=25
+(17,01,15) 12:45:45 Riscaldamento1 busy
+(17,01,15) 12:46:45 Riscaldamento1 set=19
+(17,01,15) 12:46:45 Riscaldamento1 done

@@ -1,0 +1,44 @@
+palindroma ayeye no
+error error error
+palindroma ss si
+error error error
+palindroma sccs si
+jkxyw zzzzzzzzzzzzzzza 0
+jkxyw qwq 1
+palindroma sddd no
+palindroma CDCCDCDC no
+palindroma SSS si
+error error error
+error error error
+comuni SSS,Q 0
+comuni SS,QQQQQS 2
+comuni SSSS,S 4
+error error error
+comuni SSS,QAS 3
+error error error
+jkxyw ZZZZ 0
+jkxyw ZZZZZJ 1
+palindroma CIAO no
+jkxyw CCX 1
+palindroma ANNA si
+comuni ANNA,ANNA 4
+error error error
+error error error
+error error error
+err
+err
+palindroma SXXS si
+palindroma SXXX no
+palindroma SX no
+palindroma XS no
+palindroma SS si
+palindroma XXSSXXSS no
+palindroma XSXS no
+palindroma XSSX si
+err
+comuni S,III 0
+palindroma CISCSCSCNBN no
+palindroma ANNA si
+jkxyw XCXCSDF 2
+comuni ANNA,ASDSFSDFGF 2
+palindroma 54 no

@@ -1,0 +1,7 @@
+ANGELO-ROSSI-4723 50 SpikeAir(43) da MagazzinoCentrale;
+ANGELO-ROSSI-4723 20 SpikeWater(32) da MagazzinoCentrale;
+CARLO-VERDI-4823 28 SpikeAir(43) da MagazzinoCentrale;
+CARLO-VERDI-4823 -13 SpikeAir(43) a CREMONA01;
+ANGELO-ROSSI-4723 -20 SpikeAir(43) a MANTOVA02;
+ANGELO-ROSSI-4723 -2 SpikeAir(43) a MILANO02;
+CARLO-VERDI-4823 -5 SpikeAir(43) a MILANO03;
