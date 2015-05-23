@@ -1,0 +1,12 @@
+package modello;
+
+import java.util.ArrayList;
+
+public class Confrontatore implements IConfronta{
+
+	@Override
+	public boolean trovaTraduzioneAccettabile(String frase, ArrayList<String> soluzioni) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}

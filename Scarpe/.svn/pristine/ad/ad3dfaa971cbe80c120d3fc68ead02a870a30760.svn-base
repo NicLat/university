@@ -1,0 +1,13 @@
+package files.writer;
+
+import gestore.StockScarpe;
+
+	/**
+	 * scrive una riga su file
+	 * @author nicola
+	 */
+public interface ILineWriter {
+
+	public abstract String writeLine(String furgone, String modello, StockScarpe stock);
+
+}

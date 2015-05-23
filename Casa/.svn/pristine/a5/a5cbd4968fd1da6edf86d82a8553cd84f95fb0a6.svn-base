@@ -1,0 +1,24 @@
+package dispositivi;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import files.writer.ILineWriter;
+
+public class LineaLog implements ILineWriter{
+	
+	private SimpleDateFormat tempo = new SimpleDateFormat("(dd,MM,yy) HH:mm:ss", Locale.ITALY);
+	private String log;
+	
+	public LineaLog(String log) {
+		super();
+		this.log = log;
+	}
+
+	@Override
+	public String writeLine() {
+		return tempo.format(new Date()) + " " + log;
+	}
+
+}

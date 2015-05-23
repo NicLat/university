@@ -1,0 +1,148 @@
+package dispositivi;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+import java.util.Timer;
+
+import files.writer.MyFileWriter;
+
+//fare singleton
+public class Centralina {
+
+	private HashMap<String, Dispositivo> dispositivi = 
+			new HashMap<String, Dispositivo>();
+	
+	private HashMap<String, DispositivoPercentuale> dispositiviPercentuali = 
+			new HashMap<String, DispositivoPercentuale>();
+	
+	private MyFileWriter log = new MyFileWriter("Log.txt", new LineaLog());
+	
+	
+	public String getRisposta(String richiesta){
+		String risposta = "error";
+		
+		try {
+			log.write(richiesta);
+		} catch (IOException e1) {
+		}
+		
+		LinkedList<String> partiRichiesta = separaRichiesta(richiesta);
+		
+		if(partiRichiesta.size() < 3){
+			risposta = gestisciRichiesta(partiRichiesta);
+		}else{
+			//TODO evento ritardato parte timer
+			long ritardo = traduciRitardo(partiRichiesta.get(2));
+			Timer timer = new Timer();
+			timer.schedule(new TimedRequest(this, partiRichiesta.get(0) + " " + partiRichiesta.get(1)), ritardo);
+			risposta = "planned";
+		}
+		
+		try {
+			log.write(partiRichiesta.get(0) + " " + risposta);
+		} catch (IOException e1) {
+		}
+		
+		return partiRichiesta.get(0) + " " + risposta;
+	}
+
+	/**
+	 * Gestisce una richiesta trovando il dispositivo tra quelli normali e 
+	 * quelli percentuali e ritorna una risposta dopo aver recapitato il segnale
+	 * @param partiRichiesta String con le parti della richiesta: Dispositivo e comando
+	 * @return Stringa di risposta
+	 */
+	private String gestisciRichiesta(LinkedList<String> partiRichiesta) {
+		String risposta = "error";
+		
+	/*	for (String string : partiRichiesta) {
+			System.err.println(string);
+		}
+	*/	
+		
+		Dispositivo disp = dispositivi.get(partiRichiesta.get(0));
+		if(disp != null){
+			String comando = partiRichiesta.get(1);
+			try {
+				if(comando.equals("on")){
+					disp.accendi();
+					risposta = "done";
+				}else if (comando.equals("off")){
+					disp.spegni();
+					risposta = "done";
+				}else if (comando.equals("reset")){
+					disp.spegni();
+					disp.accendi();
+					risposta = "done";
+				}
+			} catch (ErroreDispositivo e) {
+				risposta = "error";
+			}
+			
+		}else{
+			DispositivoPercentuale dPerc = dispositiviPercentuali.get(partiRichiesta.get(0));
+			if(dPerc != null){
+				String comando = partiRichiesta.get(1);
+				String valore = comando.substring(comando.indexOf('=')+1);
+				
+				try {
+					float val = Float.parseFloat(valore);
+					float realVal = dPerc.setValore(val) * 100;
+					if (val == realVal)
+						risposta = "done";
+					else
+						risposta = "set_with " + String.valueOf(realVal);
+				} catch (NumberFormatException e) {
+					risposta = "error";
+				} catch (ErroreDispositivo e) {
+					risposta = "error";
+				}
+			}
+		}
+		return risposta;
+	}
+	
+	/**
+	 * Separa una richiesta in sottoparti: dispositivo, comando, ed eventuale ritardo
+	 * @param richiesta Stringa della richiesta
+	 * @return Lista linkata delle parti
+	 */
+	private LinkedList<String> separaRichiesta(final String richiesta){
+		LinkedList<String> parti = new LinkedList<String>();
+		StringTokenizer tokenizer = new StringTokenizer(richiesta);
+		
+		parti.add(tokenizer.nextToken());
+		parti.add(tokenizer.nextToken());
+		if (tokenizer.hasMoreTokens())
+			parti.add(tokenizer.nextToken());
+		
+		return parti;
+	}
+	
+	/**
+	 * Traduce un ritardo da stringa a long in millisecondi
+	 * @param ritardo Stringa formattata in "hh:mm"
+	 * @return Long tempo in millisecondi
+	 */
+	long traduciRitardo (String ritardo){
+		long minuti;
+		
+		StringTokenizer tokenizer = new StringTokenizer(ritardo,":");
+		minuti = Long.parseLong(tokenizer.nextToken()) * 24;
+		minuti += Long.parseLong(tokenizer.nextToken());
+		
+		return minuti * 60 * 1000;
+	}
+	
+	
+
+	public void registraDispositivo(String name, Dispositivo luce){
+		dispositivi.put(name, luce);
+	}
+	
+	public void registraDispositivoPerc(String name, DispositivoPercentuale luce){
+		dispositiviPercentuali.put(name, luce);
+	}
+}

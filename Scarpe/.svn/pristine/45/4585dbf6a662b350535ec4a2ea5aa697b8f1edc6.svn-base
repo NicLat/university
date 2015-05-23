@@ -1,0 +1,45 @@
+package gestore;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import files.loader.LeggiRiga;
+import files.loader.MyFileReader;
+import files.writer.MyFileWriter;
+import files.writer.ScriviRiga;
+
+public class GestoreMagazzini {
+
+	private HashMap<String, Vettura> vetture = new HashMap<String, Vettura>();
+	private MyFileReader lettoreFile;
+	private MyFileWriter scrittoreFile;
+	
+	public void aggiungiVettura(String nome){
+		vetture.put(nome, new Vettura());
+	}
+	
+	public void leggiReportNegozio(String nomefile){
+		lettoreFile = new MyFileReader(nomefile, new LeggiRiga(vetture));
+		lettoreFile.loadFile();
+	}
+		
+	public void stampaReportVetture(String nomefile){
+		scrittoreFile = new MyFileWriter(nomefile, new ScriviRiga());
+		
+		for (Map.Entry<String, Vettura> vettura : vetture.entrySet()) {
+			
+			for (Map.Entry<String, StockScarpe> stock : vettura.getValue().getCarico().entrySet()) {
+				
+				try {
+					scrittoreFile.write(vettura.getKey(), stock.getKey(), stock.getValue());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
+	
+}

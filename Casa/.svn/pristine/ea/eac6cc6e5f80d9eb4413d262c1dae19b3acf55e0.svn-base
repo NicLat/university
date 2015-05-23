@@ -1,0 +1,65 @@
+package dispositivi;
+
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+public class Centralina {
+
+	private HashMap<String, Dispositivo> dispositivi = 
+			new HashMap<String, Dispositivo>();
+	
+	private HashMap<String, DispositivoPercentuale> dispositiviPercentuali = 
+			new HashMap<String, DispositivoPercentuale>();
+	
+	public String getRisposta(String richiesta){
+		
+		StringTokenizer tokenizer = new StringTokenizer(richiesta);
+		String nomeDispositivo = tokenizer.nextToken();
+		String risposta = "error";
+		
+		Dispositivo disp = dispositivi.get(nomeDispositivo);
+		if(disp != null){
+			String comando = tokenizer.nextToken();
+			try {
+				if(comando.equals("on")){
+					disp.accendi();
+					risposta = "done";
+				}else if (comando.equals("off")){
+					disp.spegni();
+					risposta = "done";
+				}else if (comando.equals("reset")){
+					disp.spegni();
+					disp.accendi();
+					risposta = "done";
+				}
+			} catch (ErroreDispositivo e) {
+				risposta = "error";
+			}
+			
+		}else{
+			DispositivoPercentuale dPerc = dispositiviPercentuali.get(nomeDispositivo);
+			if(dPerc != null){
+				String comando = tokenizer.nextToken();
+				String valore = comando.substring(comando.indexOf('=')+1);
+				
+				float val = Float.parseFloat(valore);
+				float realVal = dPerc.setValore(val);
+				if (val == realVal)
+					risposta = "done";
+				else
+					risposta = "set_with " + String.valueOf(realVal*100);
+			}
+		}
+		
+		
+		return nomeDispositivo + " " + risposta;
+	}
+	
+	public void registraDispositivo(String name, Dispositivo luce){
+		dispositivi.put(name, luce);
+	}
+	
+	public void registraDispositivoPerc(String name, DispositivoPercentuale luce){
+		dispositiviPercentuali.put(name, luce);
+	}
+}

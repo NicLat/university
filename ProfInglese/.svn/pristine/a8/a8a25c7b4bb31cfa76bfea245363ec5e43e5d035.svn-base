@@ -1,0 +1,140 @@
+package modello;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class Esercitatore {
+	
+	HashMap<String, ArrayList<String>> frasi;
+	HashMap<String, Boolean> risultati;
+	
+	ICaricaFrasi caricatore;
+	IConfronta confrontatore;
+	
+	public Esercitatore(ICaricaFrasi caricatore, IConfronta confrontatore) {
+		super();
+		frasi = new HashMap<String, ArrayList<String>>();
+		risultati = new HashMap<String, Boolean>();
+		this.caricatore = caricatore;
+		this.confrontatore = confrontatore;
+	}
+	public void setCaricatore(ICaricaFrasi caricatore) {
+		this.caricatore = caricatore;
+	}
+	
+	/**
+	 * Aggiunge alla collezione di frasi quelle provenienti da una sorgente
+	 * @param sorgente Sorgente
+	 */
+	public void aggiungiFrasi(String sorgente){
+		frasi.putAll(caricatore.caricaCollezioneFrasi(sorgente));
+	}
+	
+	/**
+	 * Svuota la collezione di frasi
+	 */
+	public void svuotaCollezioneFrasi(){
+		frasi.clear();
+	}
+	
+	/**
+	 * Svuota i risultati
+	 */
+	public void iniziaEsercizio(){
+		risultati.clear();
+	}
+	
+	/**
+	 * @return Una frase in inglese della collezione che non è ancora stata usata, non presente 
+	 * in risultati
+	 */
+	public String getNuovaFrase(){
+		ArrayList<String> frasiColl = getArrayListChiavi();
+		
+		Collections.shuffle(frasiColl);
+		String fraseScelta = frasiColl.get(0);
+		while(risultati.containsKey(fraseScelta)){
+			
+			if( risultati.size() >= frasiColl.size() ){
+				return null;
+			}
+			
+			Collections.shuffle(frasiColl);
+			fraseScelta = frasiColl.get(0);
+		}
+		return fraseScelta;
+	}
+	
+	/**
+	 * Esporta le frasi in inglese dalla collezione in un {@link ArrayList}
+	 * @return {@link ArrayList} di frasi da tradurre
+	 */
+	private ArrayList<String> getArrayListChiavi() {
+		ArrayList<String> frasiColl = new ArrayList<String>();
+		
+		for (Iterator<String> iterator = frasi.keySet().iterator(); iterator.hasNext();) {
+			String string = (String) iterator.next();
+			frasiColl.add(string);
+		}	
+		return frasiColl;
+	}
+	
+	/**
+	 * Valuta la frase tradotta in italiano, utlizzando {@link IConfronta} per
+	 * cercare la traduzione nelle possibili traduzioni, e ne salva il risultato
+	 * @param inglese frase in inglese
+	 * @param traduzione traduzione dello studente
+	 */
+	public void valutaFrase(String inglese, String traduzione){
+		
+		if(confrontatore.trovaTraduzioneAccettabile(traduzione, frasi.get(inglese))){
+			risultati.put(inglese, true);
+		}else
+			risultati.put(inglese, false);		
+	}
+	
+	public String getRisultati(){
+		String corrette = "Corrette: ";
+		String errate = "Errate:\n";
+		
+		int corr = 0;
+		for (Iterator<Entry<String, Boolean>> iterator = 
+				risultati.entrySet().iterator(); iterator.hasNext();) {
+			
+			Map.Entry<String, Boolean> type =  (Entry<String, Boolean>) iterator.next();
+			
+			if(type.getValue() == true){
+				corr++;
+			}else{
+				errate += (type.getKey() + "\n") ;
+			}
+		}	
+		corrette += String.valueOf(corr) + "\n";
+
+		return corrette + errate;
+	}
+	
+	
+	public String frasiToString(){
+		String tutte = "";
+		
+		for (Iterator<Entry<String, ArrayList<String>>> iterator = 
+				frasi.entrySet().iterator(); iterator.hasNext();) {
+			
+			Map.Entry<String, ArrayList<String>> type =  (Entry<String, ArrayList<String>>) iterator.next();
+			
+			String frase = type.getKey()+": ";
+			for (String string : type.getValue()) {
+				frase += string+"-";
+			}
+			tutte += (frase + "\n");
+		}	
+		return tutte;
+	}
+		
+	
+}

@@ -1,0 +1,39 @@
+package gestore;
+
+import java.util.Date;
+
+public class StockScarpe {
+	
+	private Date dataCarico;
+	private int quantita;
+	
+	public StockScarpe(Date dataCarico, int quantita) {
+		super();
+		this.dataCarico = dataCarico;
+		this.quantita = quantita;
+	}
+	
+	public int getQuantita() {
+		return quantita;
+	}
+	public Date getDataCarico() {
+		return dataCarico;
+	}
+	
+	public void aggiornaQuantita(int aggiunta) throws Exception{
+	
+		if (quantita + aggiunta < 0)
+			throw new Exception("La quantita diventerebbe negativa");
+		if (quantita + aggiunta == 0)
+			throw new Exception("Scarpe finite");
+		
+		quantita += aggiunta;	
+	}
+	
+	public int giorniInVettura(Date data){
+		long millisecondi = data.getTime() - dataCarico.getTime() ;
+		return (int) (millisecondi / (1000 * 60 * 60 * 24));	
+	}
+
+
+}

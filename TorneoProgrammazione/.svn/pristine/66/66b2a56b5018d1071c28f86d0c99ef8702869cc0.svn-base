@@ -1,0 +1,50 @@
+package modello;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import files.LettoreFacolta;
+import files.LettoreIncontro;
+import files.LettoreTeam;
+import files.MyFileReader;
+
+public class Segreteria {
+	
+	private ArrayList<Team> teams = new ArrayList<Team>();
+	private ArrayList<Facolta> facolta = new ArrayList<Facolta>();
+	
+	
+	public void caricaTeams(String nomefile){	
+		MyFileReader reader = new MyFileReader(nomefile, new LettoreTeam(teams));
+		reader.loadFile();
+	}
+	
+	public void caricaFacolta(String nomefile){	
+		MyFileReader reader = new MyFileReader(nomefile, new LettoreFacolta(facolta, teams));
+		reader.loadFile();
+	}
+
+	public void leggiIncontri(String nomefile){	
+		MyFileReader reader = new MyFileReader(nomefile, new LettoreIncontro(teams));
+		reader.loadFile();
+	}
+	
+	//ho implementato comparator sui Team e quindi uso collections.order
+	
+	public void ordinaTeams(){
+		Collections.sort(teams);
+	}
+	public void ordinaFacolta(){
+		Collections.sort(facolta);
+	}
+	
+	
+	public ArrayList<Team> getTeams() {
+		return teams;
+	}
+	public ArrayList<Facolta> getFacolta() {
+		return facolta;
+	}
+
+
+}

@@ -1,0 +1,25 @@
+package tests;
+
+import java.util.List;
+
+import convertitore.Convertitore;
+import convertitore.FormatoA;
+import convertitore.Paziente;
+
+public class Test01 {
+
+
+	public static void main(String[] args) {
+		
+		Convertitore convertitore = new Convertitore(new FormatoA());
+		List<Paziente> pazienti;
+		
+		convertitore.setFormato(new FormatoA());	
+		
+		pazienti = convertitore.leggiFile("in.txt");
+		convertitore.scriviFile("out.txt", pazienti);
+		
+		
+	}
+
+}

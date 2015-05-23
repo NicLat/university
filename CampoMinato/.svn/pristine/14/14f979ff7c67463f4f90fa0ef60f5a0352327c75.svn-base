@@ -1,0 +1,45 @@
+package test;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import modello.Campo;
+import vista.MenuBar;
+import vista.Terra;
+import controllo.Menu;
+import controllo.Mouse;
+
+public class Test11 {
+	
+	
+	public static void main(String[] args) {
+		
+		Campo campo = Campo.getIstanzaCampo();
+		campo.setup(10, 10, 1);
+		
+		JFrame frame = Utils.createFrame();
+		frame.setLayout(new BorderLayout());
+		
+		JPanel pannelloTotale = new JPanel();
+		pannelloTotale.setLayout(new BorderLayout());
+		
+		Terra terra = new Terra(campo);
+		pannelloTotale.add(terra, BorderLayout.CENTER);
+		MenuBar barra = new MenuBar();
+		pannelloTotale.add(barra.getBar(), BorderLayout.NORTH);
+		
+		
+		Mouse mouse = new Mouse(terra, campo);
+		terra.addMouseListener(mouse);
+		Menu menu = new Menu(campo, barra);
+		menu.setListeners();
+		
+		
+		frame.getContentPane().add(pannelloTotale);	
+		frame.setVisible(true);
+	}
+	
+
+}

@@ -1,0 +1,9 @@
+package modello;
+
+import java.util.ArrayList;
+
+public interface IConfronta {
+	
+	public boolean trovaTraduzioneAccettabile(String frase, ArrayList<String> soluzioni);
+
+}

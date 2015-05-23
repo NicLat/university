@@ -1,0 +1,37 @@
+package modello;
+
+public class Casella {
+	
+		private char contenuto;		// 'M' mina, ' ' niente, '1 .. 8' numero di mine adiacenti
+		private char stato;			// 'F' liberata, 'P' bandierina, 'D' ancora oscura
+		
+		
+		public void setContenuto(char contenuto) {
+			if(contenuto == 'M' || contenuto == ' ' || ( contenuto >= '1' && contenuto <= '8'))
+				this.contenuto = contenuto;
+			else 
+				this.contenuto = ' ';
+		}
+		public void setStato(char stato) {
+			if(stato == 'F' || stato == 'P' || stato == 'D')
+				this.stato = stato;
+			else 
+				this.stato = 'D';
+		}
+
+		
+		public Casella(char contenuto, char stato) {
+			super();
+			setContenuto(contenuto);
+			setStato(stato);
+		}	
+		
+
+		public char getStato() {
+			return stato;
+		}
+		public char getContenuto() {
+			return contenuto;
+		}
+
+}

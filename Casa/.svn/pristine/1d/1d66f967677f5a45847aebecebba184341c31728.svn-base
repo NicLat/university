@@ -1,0 +1,155 @@
+package dispositivi;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Timer;
+
+import files.writer.LineaLog;
+import files.writer.MyFileWriter;
+
+public class Centralina {	// è un Singleton
+
+	private HashMap<String, Dispositivo> dispositivi = 
+			new HashMap<String, Dispositivo>();
+	
+	private HashMap<String, DispositivoPercentuale> dispositiviPercentuali = 
+			new HashMap<String, DispositivoPercentuale>();
+	
+	private HashMap<String, Boolean> stati = new HashMap<String, Boolean>(); //occupato : true or false
+	
+	private MyFileWriter log = new MyFileWriter("Log.txt", new LineaLog());
+	
+	
+	// implementazione del singleton
+	private static Centralina istanzaCentralina = new Centralina();
+	private Centralina() {
+		super();
+	}
+	public static Centralina getIstanzaCentralina(){
+		return istanzaCentralina;
+	}
+
+
+	/**
+	 * Agisce su una stringa di richiesta gestendola completamente: se è immediata la esegue oppure se 
+	 * è ritardata la mette in attesa
+	 * @param richiesta	Stringa di richiesta
+	 * @return Stringa di risposta
+	 */
+	public String getRisposta(String richiesta){
+		String risposta = "error";
+		
+		try {
+			log.write(richiesta);
+		} catch (IOException e1) {
+		}
+		
+		LinkedList<String> partiRichiesta = Utils.separaRichiesta(richiesta);
+		
+		if(stati.get(partiRichiesta.get(0)).booleanValue() == true){
+			risposta = "busy";
+		}else{
+			if(partiRichiesta.size() < 3){
+				risposta = gestisciRichiesta(partiRichiesta);
+			}else{
+				long ritardo = Utils.traduciRitardo(partiRichiesta.get(2));
+				Timer timer = new Timer();
+				timer.schedule(new RichiestaTemporizzata(getIstanzaCentralina(), partiRichiesta.get(0) + " " + partiRichiesta.get(1)), ritardo);
+				stati.put(partiRichiesta.get(0),true);
+				risposta = "planned";
+			}
+		}
+		
+		try {
+			log.write(partiRichiesta.get(0) + " " + risposta);
+		} catch (IOException e1) {
+		}
+		
+		return partiRichiesta.get(0) + " " + risposta;
+	}
+	
+
+	/**
+	 * Gestisce una richiesta trovando il dispositivo tra quelli normali e 
+	 * quelli percentuali e ritorna una risposta dopo aver recapitato il segnale
+	 * @param partiRichiesta String con le parti della richiesta: Dispositivo e comando
+	 * @return Stringa di risposta
+	 */
+	private String gestisciRichiesta(LinkedList<String> partiRichiesta) {
+		String risposta = "error";
+		
+	/*	for (String string : partiRichiesta) {
+			System.err.println(string);
+		}
+	*/	
+		
+		Dispositivo disp = dispositivi.get(partiRichiesta.get(0));
+		if(disp != null){
+			String comando = partiRichiesta.get(1);
+			try {
+				if(comando.equals("on")){
+					disp.accendi();
+					risposta = "done";
+				}else if (comando.equals("off")){
+					disp.spegni();
+					risposta = "done";
+				}else if (comando.equals("reset")){
+					disp.spegni();
+					disp.accendi();
+					risposta = "done";
+				}
+			} catch (ErroreDispositivo e) {
+				risposta = "error";
+			}
+			
+		}else{
+			DispositivoPercentuale dPerc = dispositiviPercentuali.get(partiRichiesta.get(0));
+			if(dPerc != null){
+				String comando = partiRichiesta.get(1);
+				String valore = comando.substring(comando.indexOf('=')+1);
+				
+				try {
+					float val = Float.parseFloat(valore);
+					float realVal = dPerc.setValore(val) * 100;
+					if (val == realVal)
+						risposta = "done";
+					else
+						risposta = "set_with " + String.valueOf(realVal);
+				} catch (NumberFormatException e) {
+					risposta = "error";
+				} catch (ErroreDispositivo e) {
+					risposta = "error";
+				}
+			}
+		}
+		return risposta;
+	}
+	
+	/**
+	 * Registra un nuovo dispositivo
+	 * @param name Nome del dispositivo
+	 * @param luce Adapter del dispositivo
+	 */
+	public void registraDispositivo(String name, Dispositivo luce){
+		dispositivi.put(name, luce);
+		stati.put(name, false);
+	}
+	
+	/**
+	 * Registra un nuovo dispositivo percentuale
+	 * @param name Nome del dispositivo
+	 * @param luce Adapter del dispositivo
+	 */
+	public void registraDispositivoPerc(String name, DispositivoPercentuale luce){
+		dispositiviPercentuali.put(name, luce);
+		stati.put(name, false);
+	}
+	
+	/**
+	 * @return Restituisce i dispositivi con i relativi stati
+	 */
+	public HashMap<String, Boolean> getStati() {
+		return stati;
+	}
+}

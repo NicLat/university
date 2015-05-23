@@ -1,0 +1,44 @@
+package tests;
+
+import java.util.Scanner;
+
+import modello.Caricatore;
+import modello.Confrontatore;
+import modello.Esercitatore;
+
+public class Test02 {
+	
+	public static void main(String[] args) {
+		
+		Esercitatore esercitatore = new Esercitatore(new Caricatore(), new Confrontatore());
+		
+		esercitatore.aggiungiFrasi("frasi.txt");
+		
+		esercitatore.iniziaEsercizio();
+		
+		String inglese;
+		Scanner input = new Scanner(System.in);
+		
+		inglese = esercitatore.getNuovaFrase();
+		if (inglese != null) {
+			System.out.println("Traduci: " + inglese);
+			esercitatore.valutaFrase(inglese, input.nextLine());
+		}
+		
+		inglese = esercitatore.getNuovaFrase();
+		if (inglese != null) {
+			System.out.println("Traduci: " + inglese);
+			esercitatore.valutaFrase(inglese, input.nextLine());
+		}
+		
+		inglese = esercitatore.getNuovaFrase();
+		if (inglese != null) {
+			System.out.println("Traduci: " + inglese);
+			esercitatore.valutaFrase(inglese, input.nextLine());
+		}
+		
+		
+		System.out.println(esercitatore.getRisultati());
+	}
+
+}

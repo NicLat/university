@@ -1,0 +1,67 @@
+package tests;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import controllo.ButtonController;
+import vista.Output;
+import modello.Caricatore;
+import modello.Confrontatore;
+import modello.Esercitatore;
+
+public class Test10 {
+	
+	public static final int MAX_FRASI = 1;
+	
+public static void main(String[] args) {
+	
+		
+		
+		Esercitatore esercitatore = new Esercitatore(new Caricatore(), new Confrontatore());
+		esercitatore.aggiungiFrasi("frasi.txt");
+		
+		JFrame frame = Utils.createFrame();
+		frame.setLayout(new BorderLayout());
+		
+		JPanel pannellone = new JPanel();
+		pannellone.setLayout(new GridLayout(6,1));
+		frame.add(pannellone);
+	
+		pannellone.add(new JLabel("Frase:"));
+		String frase = esercitatore.getNuovaFrase();
+		Output out = new Output("");
+		JScrollPane outS = new JScrollPane(out);
+		if(frase != null)
+			out.setText(frase);
+		pannellone.add(outS);
+		
+		pannellone.add(new JLabel("Traduzione:"));
+		JTextArea in = new JTextArea("");
+		pannellone.add(in);
+		
+		pannellone.add(new JLabel());
+		JButton button = new JButton("Avanti");
+		ButtonController buttContr = new ButtonController(esercitatore);
+		buttContr.buttonClick(out, in, button, MAX_FRASI);
+		pannellone.add(button);
+		
+//		MenuBar barra = new MenuBar();
+//		pannelloTotale.add(barra.getBar(), BorderLayout.NORTH);
+//		
+//	
+//		Menu menu = new Menu(campo, barra);
+//		menu.setListeners();
+		
+		
+		frame.getContentPane().add(pannellone);	
+		frame.setVisible(true);
+	}
+
+}

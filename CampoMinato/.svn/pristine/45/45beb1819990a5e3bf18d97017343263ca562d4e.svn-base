@@ -1,0 +1,114 @@
+package modello;
+
+import java.util.Observable;
+import java.util.Random;
+
+
+public class Campo extends Observable{
+	
+	private static Campo istanzaCampo = new Campo();
+	private Campo(){
+		super();
+	}
+	public static Campo getIstanzaCampo(){
+		return istanzaCampo;
+	}
+	
+	
+	
+	private Casella[][] campo;
+	private int righe,colonne;
+	
+	public void setup(int righe, int colonne, int mine){
+		
+		campo = new Casella[righe][colonne];
+		this.righe = righe;
+		this.colonne = colonne;
+		
+		inizializzaCampo();
+		piazzaMine(righe, colonne, mine);
+		contaVicinanze();
+		
+		
+		setChanged();
+		notifyObservers();
+	}
+	
+	
+	
+	public int getRighe() {
+		return righe;
+	}
+	public int getColonne() {
+		return colonne;
+	}
+	public Casella getCasellaIJ(int i, int j){
+		if(i > campo.length || i < 0)
+			return null;
+		if(j > campo[i].length || j < 0)
+			return null;
+		return campo[i][j];
+	}
+	
+	
+	
+	
+	private void contaVicinanze() {
+		for (int i = 0; i < campo.length; i++) {
+			for (int j = 0; j < campo[i].length; j++) {
+				
+				if(campo[i][j].getContenuto() != 'M'){
+					int vicinanze = 0;
+					
+					try {
+						if(campo[i-1][j-1].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					try {
+						if(campo[i-1][j].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					try {
+						if(campo[i][j-1].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					try {
+						if(campo[i][j+1].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					try {
+						if(campo[i+1][j-1].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					try {
+						if(campo[i+1][j].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					try {
+						if(campo[i+1][j+1].getContenuto()=='M') vicinanze ++;
+					} catch (IndexOutOfBoundsException e) {}
+					
+					if(vicinanze != 0){
+						campo[i][j].setContenuto((char) (vicinanze + 48));
+					}
+				}
+			}
+		}
+	}
+	
+	private void inizializzaCampo() {
+		for (int i = 0; i < campo.length; i++) {
+			for (int j = 0; j < campo[i].length; j++) {
+				campo[i][j] = new Casella(' ', 'D');
+			}
+		}
+	}
+	
+	private void piazzaMine(int righe, int colonne, int mine) {
+		Random rand = new Random();
+		while(mine>0){
+			int r = rand.nextInt(righe);
+			int c = rand.nextInt(colonne);
+			if(campo[r][c].getContenuto() == ' '){
+				campo[r][c].setContenuto('M');
+				mine--;
+			}
+		}
+	}
+
+}
+

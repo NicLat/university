@@ -1,0 +1,21 @@
+package test;
+
+import modello.Campo;
+
+public class Test01 {
+	
+	public static void main(String[] args) {
+		Campo campo = Campo.getIstanzaCampo();
+		
+		campo.setup(10, 10, 6);
+		
+		for (int i = 0; i < campo.getRighe(); i++) {
+			for (int j = 0; j < campo.getColonne(); j++) {
+				System.out.print(campo.getCasellaIJ(i, j).getContenuto()+ " ");
+			}
+			System.out.println("");
+		}
+		
+	}
+
+}

@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<title>Libreria di FIII</title>
+		<meta charset="UTF-8" />
+	</head>
+	<body>
+	
+		<div style="background-color:#aaa;padding:20px;border: 2px solid #eca;margin-bottom:10px;">
+			<h1>Libreria di FIII</h1>
+		</div>		
+		
+		<div style="background-color:#ccc;">
+
+			<div style="width:120px;height:100%;float:left;background-color:#888;border-right: 2px solid #444;padding:3px;">
+				<ul style="list-style-type:none;">
+					<li><a href="books01.html">Home</a></li>
+					<li><a href="books02.html">Libreria</a></li>
+					<li><a href="books03.html">Consiglia</a></li>
+				</ul>
+			</div>	
+			
+			
+			<div style="background-color:#eca;height:100%;">
+				
+				<button onclick="myFunction()">Click me</button>
+				<div id="librerialibri" style="background-color:#ddd;">
+
+			
+				</div>
+			</div>
+
+		</div>
+		
+	</body>
+
+</html>
+
+<script>
+	function loadXML(filename){
+		var xhttp;
+		
+		if(window.XMLHttpRequest){
+			xhttp = new XMLHttpRequest();
+		}else{
+			xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		//xhttp = new XMLHttpRequest();
+	
+		xhttp.open("GET",filename,false);
+		xhttp.send();
+		return xhttp.responseXML;
+	}
+
+	//var a=0;
+	function myFunction() {
+		var libri = loadXML("/books.xml");
+		var libreria = document.getElementById("librerialibri");
+		var elencoLibri = libri.getElementsByTagName("book");
+		
+		var text = "";
+	
+		for(var i=0; i<elencoLibri.length; i++){
+			text = text + "<div style=\"background-color:#aaa;margin:30px\">";
+			for(var j=0; j<elencoLibri[i].childNodes.length; j++){
+				
+				if(elencoLibri[i].childNodes[j].nodeName != "#text"){
+					if(elencoLibri[i].childNodes[j].nodeName == "title"){		
+						text = text + "<h2 style=\"background-color:#ddd;\">"
+						text = text + "" + elencoLibri[i].childNodes[j].firstChild.nodeValue+"";
+						text = text + "</h2>";
+					}else if(elencoLibri[i].childNodes[j].nodeName == "author"){		
+						text = text + "<b>" + elencoLibri[i].childNodes[j].firstChild.nodeValue+"</b><br>";
+					}else if(elencoLibri[i].childNodes[j].nodeName == "price"){		
+						text = text + "Prezzo:" + elencoLibri[i].childNodes[j].firstChild.nodeValue+"<br>";
+					}else if(elencoLibri[i].childNodes[j].nodeName == "year"){		
+						text = text + "Anno:" + elencoLibri[i].childNodes[j].firstChild.nodeValue+"<br>";
+					}
+				}
+			}
+			text = text + "</div>";
+		}
+
+		libreria.innerHTML = text;
+		
+		//document.getElementById("librerialibri").innerHTML = "Hello World"+a;
+		//a++;
+	}
+</script>

@@ -1,0 +1,99 @@
+package modello;
+
+import java.util.Observable;
+
+
+public class Campo extends Observable{
+	
+	private static Campo istanzaCampo = new Campo();
+	private Campo(){
+		super();
+	}
+	public static Campo getIstanzaCampo(){
+		return istanzaCampo;
+	}
+	
+	
+	
+	private Casella[][] campo;
+	private int righe,colonne;
+	private boolean finita;
+	
+	public void setup(int righe, int colonne, int mine){
+		
+		campo = new Casella[righe][colonne];
+		this.righe = righe;
+		this.colonne = colonne;
+		this.setFinita(false);
+		
+		Utility.inizializzaCampo(campo);
+		Utility.piazzaMine(campo, righe, colonne, mine);
+		Utility.contaVicinanze(campo);
+		
+		
+		setChanged();
+		notifyObservers();
+	}
+	
+	
+	
+	public void setCasellaIJ(int i, int j, char set){
+		if(set == 'P'){
+			if(getCasellaIJ(i, j).getStato() == 'D')
+				getCasellaIJ(i, j).setStato('P');		// mette bandierina
+			else if(getCasellaIJ(i, j).getStato() == 'P')
+				getCasellaIJ(i, j).setStato('D');		// toglie bandierina
+		}else if(set == 'F'){
+			if(getCasellaIJ(i, j) != null)		
+				liberaCasella(i,j);						// prova a liberare
+		}
+		setChanged();
+		notifyObservers();
+	}
+	
+	
+	private void liberaCasella(int i, int j){
+		
+		getCasellaIJ(i, j).setStato('F');
+		
+		if(getCasellaIJ(i, j).getContenuto() == 'M'){
+			setFinita(true);
+		}else if(getCasellaIJ(i, j).getContenuto() == ' '){
+			// chiamata ricorsiva della libera casella tutto attorno
+			if(getCasellaIJ(i-1, j-1) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i-1, j) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i-1, j+1) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i, j-1) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i, j+1) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i+1, j-1) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i+1, j) != null) liberaCasella(i, j);
+			if(getCasellaIJ(i+1, j+1) != null) liberaCasella(i, j);
+		}
+
+		setChanged();
+		notifyObservers();
+	}
+	
+	
+	public int getRighe() {
+		return righe;
+	}
+	public int getColonne() {
+		return colonne;
+	}
+	public Casella getCasellaIJ(int i, int j){
+		if(i > campo.length || i < 0)
+			return null;
+		if(j > campo[i].length || j < 0)
+			return null;
+		return campo[i][j];
+	}
+	public boolean isFinita() {
+		return finita;
+	}
+	public void setFinita(boolean finita) {
+		this.finita = finita;
+	}
+
+}
+
