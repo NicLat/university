@@ -19,9 +19,16 @@ public class HttpRequest {
 				clientSocket.getInputStream()));
 
 		String line = in.readLine();
+		
+		
 
 		LinkedList<String> lines = new LinkedList<String>();
 		while (line != null) {
+						
+			if(line.contains("User-Agent:")){
+				System.err.println(line);
+			}
+			
 			lines.add(line);
 			line = in.readLine();
 			if (line.length() == 0) {

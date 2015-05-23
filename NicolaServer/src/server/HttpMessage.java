@@ -5,9 +5,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Gestisce la risposta HTTP.
@@ -45,26 +46,32 @@ public class HttpMessage {
 						.newEncoder());
 
 		boundary = "===" + System.currentTimeMillis() + "===";
+
+		outputStreamWriter.write("HTTP/1.1 "+ responseCode + EOL);
+		outputStreamWriter.write("Date: "+ getServerTime() + EOL);
 		
-		Date date = new Date(System.currentTimeMillis());
-		DateFormat df = new SimpleDateFormat("E, d M y H:m:s");
-		
-		outputStreamWriter.write("HTTP/1.1 "+ responseCode +EOL);
-		outputStreamWriter.write("Date: "+ df.format(date) +EOL);
-		
-		outputStreamWriter.write("Keep-Alive: timeout=5, max=10" +EOL);
-		outputStreamWriter.write("Cache-Control: no-cache" +EOL);
-		outputStreamWriter.write("Connection: Keep-Alive" +EOL);
-		
-		outputStreamWriter.write("Content-Type: " + contentType.text
-				+ " charset=utf-8; boundary=" + boundary +EOL);
+		outputStreamWriter.write("Keep-Alive: timeout=5, max=10" + EOL);
+		outputStreamWriter.write("Cache-Control: no-cache" + EOL);
+		outputStreamWriter.write("Connection: Keep-Alive" + EOL);
+		outputStreamWriter.write("Content-Type: " + contentType.text + EOL);
+		outputStreamWriter.write("Charset = utf-8;" + EOL);
+		outputStreamWriter.write("Boundary =" + boundary + EOL);
 		
 		outputStreamWriter.write(EOL);
 	}
 
+	/**
+	 * Sets the content type
+	 * @param contentType
+	 */
 	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
+	/**
+	 * Sets the response code
+	 * @param string
+	 * @throws IOException
+	 */
 	public void setResponseCode(String string) throws IOException {
 		responseCode = string;
 	}
@@ -76,16 +83,25 @@ public class HttpMessage {
 
 	/**
 	 * Può essere chiamata solamente quando la HttpAnswer è opened
-	 * 
 	 * @return
 	 */
 	public OutputStreamWriter getOut() {
 		return outputStreamWriter;
 	}
-
+	/**
+	 * Può essere chiamata solamente quando la HttpAnswer è opened
+	 * @return
+	 */
 	public OutputStream getOutputStream() {
 		return outputStream;
 	}
 
+	private String getServerTime() {
+	    Calendar calendar = Calendar.getInstance();
+	    SimpleDateFormat dateFormat = new SimpleDateFormat(
+	        "EEE, dd MMM yyyy HH:mm:ss z", Locale.ITALY);
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+	    return dateFormat.format(calendar.getTime());
+	}
 
 }
