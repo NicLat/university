@@ -85,6 +85,14 @@ public class UserStoriesService implements IService {
 		filerReader.close();
 	}
 
+	private void printStartOfPage(OutputStreamWriter out, Document doc)
+			throws IOException {
+		NodeList pageInfo = doc.getElementsByTagName("title");
+		NodeList info = pageInfo.item(0).getChildNodes();
+		out.write("<h2 class=\"first-h2\">" + info.item(1).getTextContent() + "</h2>");
+		out.write("<p>" + info.item(3).getTextContent() + "</p>");
+	}
+
 	private void printUserStories(OutputStreamWriter out, Document doc)
 			throws IOException {
 		NodeList storiesList = doc.getElementsByTagName("story");
@@ -93,14 +101,6 @@ public class UserStoriesService implements IService {
 			printStory(out, storiesList, i);
 		}
 		out.write("</ul></p>");
-	}
-
-	private void printStartOfPage(OutputStreamWriter out, Document doc)
-			throws IOException {
-		NodeList pageInfo = doc.getElementsByTagName("title");
-		NodeList info = pageInfo.item(0).getChildNodes();
-		out.write("<h2 class=\"first-h2\">" + info.item(1).getTextContent() + "</h2>");
-		out.write("<p>" + info.item(3).getTextContent() + "</p>");
 	}
 
 	private void printStory(OutputStreamWriter out, NodeList storiesList, int i)

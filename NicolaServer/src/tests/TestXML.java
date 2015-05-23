@@ -16,39 +16,48 @@ public class TestXML {
 
 	public static void main(String[] args) {
 		
-		File fileXML = new File("books.xml");
+		String xmlName = "xml/user_stories1.xml";
+		File fileXML = new File(xmlName);
+		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = dbFactory.newDocumentBuilder();
-			
 			Document doc = builder.parse(fileXML);
 			
-			NodeList bookList = doc.getElementsByTagName("book");
-			
-			for (int i = 0; i < bookList.getLength(); i++) {
-				
-				Node book = bookList.item(i);
-				NodeList bookInfo = book.getChildNodes();
-				
-				for (int j = 0; j < bookInfo.getLength(); j++) {
-					Node info = bookInfo.item(j);
-					
-					String nodeName = bookInfo.item(j).getNodeName();
-					String textContext = info.getTextContent();
-					
-					System.out.println(nodeName+" ["+textContext+"]");
-				}
-			}
+			printUserStories(doc);
 			
 		} catch (ParserConfigurationException e) {
-			// TODO Verificare documentazione excetption
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	
+	private static void printUserStories(Document doc)
+			throws IOException {
+		NodeList storiesList = doc.getElementsByTagName("story");
+		System.out.println("<p>User Stories:<ul>");
+		for (int i = 0; i < storiesList.getLength(); i++) {
+			printStory(storiesList, i);
+		}
+		System.out.println("</ul></p>");
+	}
+	
+	private static void printStory(NodeList storiesList, int i)
+			throws IOException {
+		
+		Node story = storiesList.item(i);
+		NodeList storyInfo = story.getChildNodes();
+
+		System.out.println("<li class=\"userstories-list\"><span class=\"usphrase\">As a</span> "
+				+ storyInfo.item(1).getTextContent());
+		System.out.println(" <span class=\"usphrase\">i want</span> "
+				+ storyInfo.item(3).getTextContent());
+		System.out.println(" <span class=\"usphrase\">so that</span> "
+				+ storyInfo.item(5).getTextContent());
+	}
+	
 }

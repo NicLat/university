@@ -1,0 +1,31 @@
+<userstories>		<!-- As a ... i want ... so that ...  -->
+
+	<title>
+		<title>Second iteration's user stories</title>
+		<info>The first iteration was 3 weeks long, being conscious about the difficulties and the advantages of working in a team we produced more.</info>
+	</title>
+	<story>
+		<as>member of an XP team tools project</as>		
+		<goal>to start a private conversation with another member</goal>
+		<reason>i can ask for informations privately</reason>
+	</story>
+	
+	<story>
+		<as>chat user</as>		
+		<goal>to schedule a new meeting or general event</goal>
+		<reason>is possible to see it on the timeline</reason>
+	</story>
+	
+	<story>
+		<as>programmer using XP team tools</as>		
+		<goal>that the end of a programming tomato saves an event</goal>
+		<reason>will be possible to watch out how much we work</reason>
+	</story>
+		
+	<story>	
+		<as>user</as>		
+		<goal>that my client application remembers my login and password</goal>
+		<reason>i don't have to retype it every time</reason>
+	</story>
+
+</userstories>
