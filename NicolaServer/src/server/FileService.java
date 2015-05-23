@@ -102,10 +102,8 @@ public class FileService implements IService {
 		outputStreamWriter.write("Content-Length: " + (new File(filename)).length());
 
 		BufferedOutputStream out = new BufferedOutputStream( output );
-		// f is the file to be sent to the client.
 		BufferedInputStream reader = new BufferedInputStream( new FileInputStream( filename ) );
 
-		
 		byte[] buffer = new byte[ 4096 ];
 		int bytesRead;
 		while ( (bytesRead = reader.read(buffer)) != -1 ) {
@@ -113,6 +111,5 @@ public class FileService implements IService {
 		}
 		reader.close();
 		out.flush();
-
 	}
 }

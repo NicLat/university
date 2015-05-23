@@ -6,7 +6,8 @@ body {
 	text-decoration: none;
 	margin: 0px;
 	padding: 0px;
-	
+	height:100vh;
+	background: linear-gradient(#848584, white 350px);
 }
 .right {
 	float: right;
