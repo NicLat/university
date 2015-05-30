@@ -38,14 +38,13 @@ public class FileService implements IService {
 
 		setContentType(message, filename);
 		message.openHttpAnswer(clientSocket);
-		
+
 		setDataType(message, filename);
 		sender.sendFile(filename);
 
 		message.closeHttpAnswer();
 		System.out.println("File given: " + filename);
 	}
-
 
 	private String checkURI(String uri, HttpMessage message) throws IOException {
 
@@ -63,7 +62,7 @@ public class FileService implements IService {
 
 		return filename;
 	}
-	
+
 	private void setContentType(HttpMessage message, String filename) {
 
 		if (filename.endsWith("html")) {
@@ -82,13 +81,14 @@ public class FileService implements IService {
 	private void setDataType(HttpMessage message, String filename) {
 
 		if (filename.endsWith("html")) {
-			sender.setKind(new HtmlSender(message.getOutputStreamWriter()));
+			sender.setKind(new HtmlSender(message.getOutputStreamWriter(),
+					"web/header.html", "web/footer.html"));
+			
 		} else if (filename.endsWith("jpg") || filename.endsWith("png")) {
 			sender.setKind(new BinarySender(message.getOutputStream()));
 		} else {
 			sender.setKind(new SimpleSender(message.getOutputStreamWriter()));
 		}
 	}
-
 
 }

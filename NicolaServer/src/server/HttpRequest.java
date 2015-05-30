@@ -29,9 +29,9 @@ public class HttpRequest {
 		LinkedList<String> lines = new LinkedList<String>();
 		while (line != null) {
 						
-			if(line.contains("User-Agent:")){
-				System.err.println(line);
-			}
+//			if(line.contains("User-Agent:")){
+//				System.err.println(line);
+//			}
 			
 			lines.add(line);
 			line = in.readLine();

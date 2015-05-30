@@ -8,7 +8,6 @@ import server.services.ISendFile;
 /**
  * Class to send a file to a client, a kind of sender must be set before any
  * sendFile
- * 
  * @author Nicola
  */
 public class Sender {

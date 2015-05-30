@@ -24,7 +24,9 @@ import server.HttpRequest;
 import server.IService;
 
 /**
- * Service to handle the format of a page of user stories, it takes them from xml files
+ * Service to handle the format of a page of user stories, it takes them from
+ * xml files
+ * 
  * @author Nicola
  */
 public class UserStoriesService implements IService {
@@ -36,27 +38,44 @@ public class UserStoriesService implements IService {
 
 		HttpMessage message = new HttpMessage();
 		message.openHttpAnswer(clientSocket);
-		
+
 		int itNumber = getIterationNumber(request.getParameters());
 
+		sendTextFile("web/header.html", message.getOutputStreamWriter());
 		copyFile(filename, message.getOutputStreamWriter(), itNumber);
+		sendTextFile("web/footer.html", message.getOutputStreamWriter());
 
 		message.closeHttpAnswer();
 	}
 
-	private int getIterationNumber(String parameters){
-		int num = 1; 
+	private int getIterationNumber(String parameters) {
+		int num = 1;
 		try {
 			StringTokenizer tok = new StringTokenizer(parameters, "&num=");
 			num = Integer.parseInt(tok.nextToken());
-		}catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
-		}catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			e.printStackTrace();
-		}catch (NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			e.printStackTrace();
 		}
 		return num;
+	}
+
+	private void sendTextFile(String filename, OutputStreamWriter out)
+			throws IOException {
+
+		BufferedReader filerReader = new BufferedReader(
+				new FileReader(filename));
+
+		String fileLine = filerReader.readLine();
+		while (fileLine != null) {
+			out.write(fileLine + "\n");
+			fileLine = filerReader.readLine();
+		}
+
+		filerReader.close();
 	}
 
 	private void copyFile(String filename, OutputStreamWriter out, int itNumber)
@@ -71,15 +90,16 @@ public class UserStoriesService implements IService {
 				xmlName += String.valueOf(itNumber) + ".xml";
 
 				File fileXML = new File(xmlName);
-				
+
 				try {
-					DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+					DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+							.newInstance();
 					DocumentBuilder builder = dbFactory.newDocumentBuilder();
 					Document doc = builder.parse(fileXML);
-					
+
 					printStartOfPage(out, doc);
 					printUserStories(out, doc);
-					
+
 				} catch (ParserConfigurationException e) {
 					e.printStackTrace();
 				} catch (SAXException e) {
@@ -100,7 +120,8 @@ public class UserStoriesService implements IService {
 			throws IOException {
 		NodeList pageInfo = doc.getElementsByTagName("title");
 		NodeList info = pageInfo.item(0).getChildNodes();
-		out.write("<h2 class=\"first-h2\">" + info.item(1).getTextContent() + "</h2>");
+		out.write("<h2 class=\"first-h2\">" + info.item(1).getTextContent()
+				+ "</h2>");
 		out.write("<p>" + info.item(3).getTextContent() + "</p>");
 	}
 
@@ -116,7 +137,7 @@ public class UserStoriesService implements IService {
 
 	private void printStory(OutputStreamWriter out, NodeList storiesList, int i)
 			throws IOException {
-		
+
 		Node story = storiesList.item(i);
 		NodeList storyInfo = story.getChildNodes();
 
@@ -127,6 +148,5 @@ public class UserStoriesService implements IService {
 		out.write(" <span class=\"usphrase\">so that</span> "
 				+ storyInfo.item(5).getTextContent());
 	}
-	
 
 }

@@ -1,10 +1,18 @@
 package server.services;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Interface in order to abstract from the way to send a file
+ * @author Nicola
+ */
 public interface ISendFile {
 	
-	public void sendFile(String filename) throws FileNotFoundException, IOException  ;
+	/**
+	 * Sends the file in the right way
+	 * @param filename name of the file
+	 * @throws IOException
+	 */
+	public void sendFile(String filename) throws IOException  ;
 
 }

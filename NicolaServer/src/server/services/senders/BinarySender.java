@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -22,8 +21,7 @@ public class BinarySender implements ISendFile {
 	}
 
 	@Override
-	public void sendFile(String filename) throws FileNotFoundException,
-			IOException {
+	public void sendFile(String filename) throws IOException {
 
 		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(output,
 				Charset.forName("UTF-8").newEncoder());
