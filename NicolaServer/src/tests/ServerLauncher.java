@@ -1,7 +1,7 @@
 package tests;
 
-import server.UserStoriesService;
 import server.Server;
+import server.services.UserStoriesService;
 
 public class ServerLauncher {
 

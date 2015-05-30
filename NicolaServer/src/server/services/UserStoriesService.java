@@ -1,4 +1,4 @@
-package server;
+package server.services;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,6 +19,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import server.HttpMessage;
+import server.HttpRequest;
+import server.IService;
+
 /**
  * Service to handle the format of a page of user stories, it takes them from xml files
  * @author Nicola
@@ -35,7 +39,7 @@ public class UserStoriesService implements IService {
 		
 		int itNumber = getIterationNumber(request.getParameters());
 
-		copyFile(filename, message.getOut(), itNumber);
+		copyFile(filename, message.getOutputStreamWriter(), itNumber);
 
 		message.closeHttpAnswer();
 	}

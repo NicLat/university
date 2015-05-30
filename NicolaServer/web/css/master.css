@@ -70,6 +70,12 @@ p {
 	margin-bottom: 15px;
 
 }
+.p-right {
+	text-align: right;
+}
+.p-left {
+	text-align: left;
+}
 ::selection {
 	background: yellow;
 }

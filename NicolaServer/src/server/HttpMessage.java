@@ -89,7 +89,7 @@ public class HttpMessage {
 	 * Può essere chiamata solamente quando la HttpAnswer è opened
 	 * @return
 	 */
-	public OutputStreamWriter getOut() {
+	public OutputStreamWriter getOutputStreamWriter() {
 		return outputStreamWriter;
 	}
 	

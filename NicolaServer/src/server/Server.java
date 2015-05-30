@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 
+import server.services.FileService;
+
 /**
  * Web Server, it gets opened on a port and answers with web pages.
  * Can be increased with services and the default one is a file service which simply copies the file requested
@@ -50,7 +52,7 @@ public class Server {
 							
 							IService service = services.get(request.getUri());
 							if(service == null){
-								service = new FileService("index.html");
+								service = new FileService("index.html", new Sender());
 							}
 							
 							service.sendHTTP(clientSocket, request);
