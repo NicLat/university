@@ -12,8 +12,8 @@
   </interface>  
   <class id="2" language="java" name="server.HttpMessage" project="NicolaServer" 
     file="/NicolaServer/src/server/HttpMessage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="498" y="329"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="84" width="147" x="422" y="309"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
@@ -21,7 +21,7 @@
   </class>  
   <enumeration id="3" language="java" name="server.HttpMessage.ContentType" project="NicolaServer" 
     file="/NicolaServer/src/server/HttpMessage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="502" y="449"/>    
+    <position height="-1" width="-1" x="476" y="487"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -30,8 +30,8 @@
   </enumeration>  
   <class id="4" language="java" name="server.HttpRequest" project="NicolaServer" 
     file="/NicolaServer/src/server/HttpRequest.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="139" y="330"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    <position height="95" width="138" x="91" y="261"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
