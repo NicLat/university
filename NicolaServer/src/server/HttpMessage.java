@@ -19,17 +19,7 @@ import java.util.TimeZone;
  */
 public class HttpMessage {
 
-	public enum ContentType {
-		HTML("text/html"), XML("text/xml"), CSS("text/css"), JPG("image/jpeg"), PNG(
-				"image/png");
-		private String text;
-
-		private ContentType(String text) {
-			this.text = text;
-		}
-	}
-
-	private ContentType contentType = ContentType.HTML;
+	private String contentType = "text/html";
 	private String responseCode = "200 OK";
 
 	private OutputStream outputStream;
@@ -52,7 +42,7 @@ public class HttpMessage {
 		outputStreamWriter.write("Keep-Alive: timeout=5, max=10" + EOL);
 		outputStreamWriter.write("Cache-Control: no-cache" + EOL);
 		outputStreamWriter.write("Connection: Keep-Alive" + EOL);
-		outputStreamWriter.write("Content-Type: " + contentType.text + EOL);
+		outputStreamWriter.write("Content-Type: " + contentType + EOL);
 		outputStreamWriter.write("Charset = utf-8;" + EOL);
 		outputStreamWriter.write("Boundary =" + boundary + EOL);
 		
@@ -63,7 +53,7 @@ public class HttpMessage {
 	 * Sets the content type
 	 * @param contentType
 	 */
-	public void setContentType(ContentType contentType) {
+	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
 	

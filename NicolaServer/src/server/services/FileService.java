@@ -3,9 +3,9 @@ package server.services;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
 import server.HttpMessage;
-import server.HttpMessage.ContentType;
 import server.HttpRequest;
 import server.IService;
 import server.services.senders.BinarySender;
@@ -22,6 +22,8 @@ public class FileService implements IService {
 
 	private String homepage = "index.html";
 	private Sender sender;
+	
+	private HashMap<String, String> knownContents = new HashMap<String, String>();
 
 	public FileService(String homepage, Sender sender) {
 		super();
@@ -36,7 +38,11 @@ public class FileService implements IService {
 		HttpMessage message = new HttpMessage();
 		String filename = checkURI(request.getUri(), message);
 
-		setContentType(message, filename);
+		
+		String extension = filename.substring(filename.indexOf('.') + 1, filename.length());
+		if(knownContents.containsKey(extension)){
+			message.setContentType(knownContents.get(extension));
+		}
 		message.openHttpAnswer(clientSocket);
 
 		setDataType(message, filename);
@@ -46,6 +52,17 @@ public class FileService implements IService {
 		System.out.println("File given: " + filename);
 	}
 
+	
+	/**
+	 * Adds a content type to the collection of known ones.
+	 * @param extension	file extension
+	 * @param name string of the content type in HTTP format
+	 */
+	public void addKnownContent(String extension, String name){
+		knownContents.put(extension, name);
+	}
+	
+	
 	private String checkURI(String uri, HttpMessage message) throws IOException {
 
 		String filename = "web" + uri;
@@ -61,21 +78,6 @@ public class FileService implements IService {
 		}
 
 		return filename;
-	}
-
-	private void setContentType(HttpMessage message, String filename) {
-
-		if (filename.endsWith("html")) {
-			message.setContentType(ContentType.HTML);
-		} else if (filename.endsWith("xml")) {
-			message.setContentType(ContentType.XML);
-		} else if (filename.endsWith("css")) {
-			message.setContentType(ContentType.CSS);
-		} else if (filename.endsWith("jpg")) {
-			message.setContentType(ContentType.JPG);
-		} else if (filename.endsWith("png")) {
-			message.setContentType(ContentType.PNG);
-		}
 	}
 
 	private void setDataType(HttpMessage message, String filename) {
