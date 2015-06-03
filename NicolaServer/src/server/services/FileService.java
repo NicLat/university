@@ -8,9 +8,9 @@ import server.HttpMessage;
 import server.HttpMessage.ContentType;
 import server.HttpRequest;
 import server.IService;
-import server.Sender;
 import server.services.senders.BinarySender;
 import server.services.senders.HtmlSender;
+import server.services.senders.Sender;
 import server.services.senders.SimpleSender;
 
 /**

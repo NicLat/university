@@ -1,4 +1,4 @@
-package server;
+package server.services.senders;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import server.services.ISendFile;
  * sendFile
  * @author Nicola
  */
-public class Sender {
+public class Sender implements ISendFile{
 
 	private ISendFile kind;
 
@@ -30,6 +30,7 @@ public class Sender {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
+	@Override
 	public void sendFile(String filename) throws FileNotFoundException,
 			IOException {
 		kind.sendFile(filename);
